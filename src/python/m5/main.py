@@ -511,7 +511,7 @@ def main():
         print(brief_copyright)
         print()
 
-        print(f"gem5 version {_m5.core.gem5Version}")
+        print(f"gem5 version {_m5.core.gem5Version} applied HammerSim patch")
         print(f"gem5 compiled {_m5.core.compileDate}")
 
         print(

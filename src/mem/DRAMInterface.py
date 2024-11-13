@@ -38,6 +38,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import os
 from m5.objects.MemCtrl import MemCtrl
 from m5.objects.MemInterface import *
 
@@ -52,6 +53,48 @@ class DRAMInterface(MemInterface):
     type = "DRAMInterface"
     cxx_header = "mem/dram_interface.hh"
     cxx_class = "gem5::memory::DRAMInterface"
+
+    device_file = Param.String(os.path.join("/home/kawasaki/dev/gem5-rowhammer/prob-005.json"), 
+                                "Absolute path with the device info file."\
+                                "The default file is included in the repo.")
+
+    rowhammer_threshold = Param.Unsigned(50, "Number of activates which "\
+                                "trigger rowhammer")
+    
+    counter_table_length = Param.Unsigned(16, "Number of entries of the TRR "\
+                                "table for vendor B/counter-based "\
+                                "maintains.")
+
+    trr_variant = Param.Unsigned(0, "The different variant of TRR (0 - 3)")
+
+    trr_threshold = Param.Unsigned(32, "The threshold number used to "\
+                                        "refresh rows in the DRAM device.")
+
+    companion_table_length = Param.Unsigned(8, "The number of entres in the "\
+                                        "companion table.")
+
+    companion_threshold = Param.Unsigned(1024, "The  threshold number "\
+                                        "used to promote a row from the "\
+                                        "companion table to the trr table")
+
+    trr_stat_dump = Param.Bool(True, "Set this to True to dump TRR triggers"\
+                                    "and generate a TRR trace.")
+
+    rh_stat_dump = Param.Bool(True, "Set this to True to dump RH triggers"\
+                                    "and generate a RH trace. The trace is "\
+                                    "named as `rowhammer.trace`")
+    # Single-sided rowhammer probability.
+    single_sided_prob = Param.Unsigned(1, "Number of double-sided RH "\
+                                        "bitflips required before observing "\
+                                        "at least 1 single-sided bitflip.")
+
+    half_double_prob = Param.Unsigned(1e9, "Number of half-double RH "\
+                                        "attacks required before observing "\
+                                        "at least 1 single-sided bitflip.")
+    
+    double_sided_prob = Param.Unsigned(1e5, "Number of double-sided RH "\
+                                        "attacks required to flip at least "\
+                                        "one bit in the sandwiched row.")
 
     # scheduler page policy
     page_policy = Param.PageManage("open_adaptive", "Page management policy")
