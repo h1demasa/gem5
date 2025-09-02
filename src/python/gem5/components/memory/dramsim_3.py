@@ -37,10 +37,7 @@ def config_ds3(mem_type: str, num_chnls: int) -> Tuple[str, str]:
     # TODO: We need a better solution to this. This hard-coding is not
     # an acceptable solution.
     dramsim_3_dir = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        os.pardir,
-        os.pardir,
-        os.pardir,
+        ".",
         "ext",
         "dramsim3",
         "DRAMsim3",
